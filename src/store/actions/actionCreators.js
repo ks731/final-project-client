@@ -59,10 +59,16 @@ export const fetchStudent = (student) => {
   };
 };
 //add Campus
-export const ADD_CAMPUS = "ADD_CAMPUS";
 export const addCampus = (campus) => {
   return {
-    type: ADD_CAMPUS,
+    type: at.ADD_CAMPUS,
     payload: campus,
+  };
+};
+//delete campus
+export const deleteCampus = (campusId) => {
+  return {
+    type: at.DELETE_CAMPUS,
+    payload: campusId,
   };
 };

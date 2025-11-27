@@ -26,6 +26,7 @@ const AllCampusesView = (props) => {
           <h4>campus id: {campus.id}</h4>
           <p>{campus.address}</p>
           <p>{campus.description}</p>
+          <button onClick={() => props.deleteCampus(campus.id)}>Delete</button>
           <hr/>
         </div>
       ))}
@@ -41,6 +42,7 @@ const AllCampusesView = (props) => {
 // Validate data type of the props passed to component.
 AllCampusesView.propTypes = {
   allCampuses: PropTypes.array.isRequired,
+  deleteCampus: PropTypes.func.isRequired,
 };
 
 export default AllCampusesView;
