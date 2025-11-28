@@ -121,3 +121,17 @@ export const deleteCampusThunk = (campusId) => async (dispatch) => {
     console.error(err);
   }
 };
+
+//remove student from campus
+// THUNK CREATOR:
+export const removeStudentFromCampusThunk = (studentId) => async (dispatch) => {  
+  try {
+    console.log("Removing student from campus, student ID:", studentId);
+    
+    await axios.put(`/api/students/${studentId}`, { campusId: null });  
+    
+    console.log("Student removed from campus successfully");
+  } catch(err) {
+    console.error("Error removing student from campus:", err);
+  }
+};
