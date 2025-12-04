@@ -20,7 +20,10 @@ class NewStudentContainer extends Component {
     this.state = {
       firstname: "", 
       lastname: "", 
+      email: "",
       campusId: null, 
+      imageUrl: "",
+      gpa: "",
       redirect: false, 
       redirectId: null
     };
@@ -35,14 +38,45 @@ class NewStudentContainer extends Component {
 
   // Take action after user click the submit button
   handleSubmit = async event => {
-    event.preventDefault();  // Prevent browser reload/refresh after submit.
+  event.preventDefault();  // Prevent browser reload/refresh after submit.
+  
+  // Basic validation
+  if (!this.state.email || !this.state.firstname || !this.state.lastname) {
+    alert("Please fill in all required fields (First Name, Last Name, Email)");
+    return;
+  }
+  
+  // Convert campusId to number or null
+  let campusIdValue = this.state.campusId;
+  if (campusIdValue === "" || campusIdValue === null || campusIdValue === undefined) {
+    campusIdValue = null;
+  } else {
+    campusIdValue = parseInt(campusIdValue);
+    if (isNaN(campusIdValue)) {
+      campusIdValue = null;
+    }
+  }
+  
+  // Validate GPA (0.0-4.0) if provided
+  let gpaValue = null;
+  if (this.state.gpa && this.state.gpa !== "") {
+    gpaValue = parseFloat(this.state.gpa);
+    if (isNaN(gpaValue) || gpaValue < 0.0 || gpaValue > 4.0) {
+      alert("GPA must be a number between 0.0 and 4.0");
+      return;
+    }
+  }
 
-    let student = {
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
-        campusId: this.state.campusId
-    };
-    
+  let student = {
+    firstname: this.state.firstname,
+    lastname: this.state.lastname,
+    email: this.state.email,
+    campusId: campusIdValue,  // Use the converted value, NOT this.state.campusId
+    imageUrl: this.state.imageUrl || "https://via.placeholder.com/150",
+    gpa: gpaValue  // Use the validated value, NOT this.state.gpa
+  };
+  
+  try {
     // Add new student in back-end database
     let newStudent = await this.props.addStudent(student);
 
@@ -50,11 +84,18 @@ class NewStudentContainer extends Component {
     this.setState({
       firstname: "", 
       lastname: "", 
+      email: "",
       campusId: null, 
+      imageUrl: "",
+      gpa: "",
       redirect: true, 
       redirectId: newStudent.id
     });
+  } catch (error) {
+    console.error("Error creating student:", error);
+    alert("Failed to create student. Please check all fields are valid.");
   }
+}
 
   // Unmount when the component is being removed from the DOM:
   componentWillUnmount() {
