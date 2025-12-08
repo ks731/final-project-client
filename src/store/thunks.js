@@ -132,13 +132,28 @@ export const editCampusThunk = (campus) => async (dispatch) => {
     console.error(err);
   }
 };
-
-export const editStudentThunk = student => async dispatch => {  // The THUNK
+//edit student
+export const editStudentThunk = student => async dispatch => {
   try {
-    let updatedStudent = await axios.put(`/api/students/${student.id}`, student); 
-    dispatch(ac.editStudent(updatedStudent));
+    let res = await axios.put(`/api/students/${student.id}`, student); 
+    dispatch(ac.editStudent(res.data)); 
+    return res.data;
   } catch(err) {
     console.error(err);
   }
 };
 
+
+//add student to campus
+export const addStudentToCampusThunk = (studentId, campusId) => async (dispatch) => {
+  try {
+    console.log("Adding student to campus:", studentId, campusId);
+    
+    let res = await axios.put(`/api/students/${studentId}`, { campusId });
+    
+    console.log("Student added to campus successfully");
+    return res.data;
+  } catch(err) {
+    console.error("Error adding student to campus:", err);
+  }
+};
