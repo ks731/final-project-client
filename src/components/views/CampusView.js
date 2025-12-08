@@ -32,6 +32,21 @@ const CampusView = (props) => {
       <h1>{campus.name}</h1>
       <p>{campus.address}</p>
       <p>{campus.description}</p>
+      {campus.imageUrl ? (
+        <img 
+        src={campus.imageUrl} 
+        alt={`${campus.name}`} 
+        style={{ maxWidth: "400px", margin: "20px 0", borderRadius: "8px" }}
+        onError={(e) => {
+          console.error("Failed to load campus image:", campus.imageUrl);
+          e.target.style.display = 'none';
+        }}
+        />
+      ) : (
+      <p>No image available for this campus</p>
+      )}
+
+    
       <Link to={`/campus/${campus.id}/edit`}>
         <button>Edit Campus</button>
       </Link>

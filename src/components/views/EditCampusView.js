@@ -45,7 +45,7 @@ const EditCampusView = (props) => {
           <input 
             type="text" 
             name="imageUrl"
-            value={campus.imageUrl} 
+            value={campus.imageUrl || ""} 
             onChange={handleChange}
             placeholder="Leave empty for default image"
           />
