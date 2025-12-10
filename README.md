@@ -1,4 +1,6 @@
 # client-starter-code
+Kevin Sanchez Salazar
+github username: ks731
 
 This repository is the client (front-end) starter code for Final Project - Full-Stack CRUD Application.
 
